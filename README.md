@@ -17,11 +17,8 @@ A complete workflow for creating professional PowerPoint presentations from Mark
 
 1. **Install dependencies:**
    ```bash
-   # Install Python dependencies
-   uv sync
-   
-   # Install mermaid-cli globally
-   npm install -g @mermaid-js/mermaid-cli
+   # Install all Node.js dependencies (including mermaid-cli locally)
+   npm install
    
    # Install pandoc (see https://pandoc.org/installing.html)
    ```
@@ -29,9 +26,18 @@ A complete workflow for creating professional PowerPoint presentations from Mark
 2. **Build the presentation:**
    ```bash
    ./build.sh
+   # or use npm script
+   npm run build
    ```
 
-3. **View results:**
+3. **Clean generated files:**
+   ```bash
+   ./clean.sh
+   # or use npm script
+   npm run clean
+   ```
+
+4. **View results:**
    - PowerPoint: `output/presentation-demo.pptx`
    - HTML: `output/presentation-demo.html`
 
@@ -47,29 +53,33 @@ A complete workflow for creating professional PowerPoint presentations from Mark
 
 2. **Generate presentation** using the filter:
    ```bash
-   pandoc presentation.md --filter ./mermaid-filter.py -o presentation.pptx
+   pandoc presentation.md --filter ./mermaid-filter.js -o presentation.pptx
    ```
 
 3. **Or use the build script**:
    ```bash
-   ./build-with-filter.sh
+   ./build.sh
+   # or use npm scripts
+   npm run build   # Build presentation
+   npm test        # Run tests
+   npm run clean   # Clean generated files
    ```
 
 ## Usage Examples
 
 ### PowerPoint Presentation
 ```bash
-pandoc sample-presentation.md --filter ./mermaid-filter.py -o presentation.pptx
+pandoc sample-presentation.md --filter ./mermaid-filter.js -o presentation.pptx
 ```
 
 ### HTML Presentation (Reveal.js)
 ```bash
-pandoc sample-presentation.md --filter ./mermaid-filter.py -t revealjs -o presentation.html --standalone
+pandoc sample-presentation.md --filter ./mermaid-filter.js -t revealjs -o presentation.html --standalone
 ```
 
 ### PDF Presentation (Beamer)
 ```bash
-pandoc sample-presentation.md --filter ./mermaid-filter.py -t beamer -o presentation.pdf
+pandoc sample-presentation.md --filter ./mermaid-filter.js -t beamer -o presentation.pdf
 ```
 
 ## Mermaid Diagram Types Supported
@@ -89,12 +99,13 @@ The filter supports all mermaid diagram types:
 
 ```
 pandoc_pptx_test/
-├── mermaid-filter.py           # Pandoc filter for mermaid conversion
-├── build-with-filter.sh        # Automated build script
-├── sample-presentation.md      # Sample presentation with mermaid
-├── test-mermaid.md            # Test file with various diagrams
+├── mermaid-filter.js           # Pandoc filter for mermaid conversion
+├── build.sh                    # Automated build script
+├── clean.sh                    # Clean generated files script
+├── presentation-demo.md        # Sample presentation with mermaid
+├── test.sh                     # Test script
 ├── generated_diagrams/         # Auto-generated diagram images
-└── .venv/                     # Python virtual environment
+└── node_modules/               # Node.js dependencies
 ```
 
 ## How the Filter Works
@@ -111,15 +122,15 @@ pandoc_pptx_test/
 ## Advanced Configuration
 
 ### Custom Image Dimensions
-Edit `mermaid-filter.py` to change default dimensions:
-```python
-img_path = mermaid_to_image(code, img_format, width=1200, height=800)
+Edit `mermaid-filter.js` to change default dimensions:
+```javascript
+const imgPath = mermaidToImage(code, imgFormat, 1200, 800, theme);
 ```
 
 ### Output Directory
 Change the output directory for generated images:
-```python
-output_dir = Path("my_diagrams")
+```javascript
+const outputDir = path.join(process.cwd(), 'my_diagrams');
 ```
 
 ### Error Handling
@@ -134,32 +145,32 @@ The filter gracefully handles errors:
 
 1. **"mmdc not found"**
    ```bash
-   npm install -g @mermaid-js/mermaid-cli
+   npm install @mermaid-js/mermaid-cli
    ```
 
-2. **"panflute not found"**
+2. **"pandoc-filter not found"**
    ```bash
-   pip install panflute
+   npm install pandoc-filter
    ```
 
 3. **Permission denied**
    ```bash
-   chmod +x mermaid-filter.py
-   chmod +x build-with-filter.sh
+   chmod +x mermaid-filter.js
+   chmod +x build.sh
    ```
 
-4. **Python interpreter issues**
-   - Check the shebang line in `mermaid-filter.py`
-   - Make sure it points to the correct Python interpreter
+4. **Node.js interpreter issues**
+   - Check the shebang line in `mermaid-filter.js`
+   - Make sure Node.js is properly installed
 
 ### Debug Mode
-To see what the filter is doing, add debug prints to `mermaid-filter.py`.
+To see what the filter is doing, add debug prints to `mermaid-filter.js`.
 
 ## Comparison with Manual Method
 
 | Method | Pros | Cons |
 |--------|------|------|
-| **Filter** | ✅ Automatic<br>✅ Integrated<br>✅ Cached<br>✅ Format-aware | ❌ Requires setup<br>❌ Python dependency |
+| **Filter** | ✅ Automatic<br>✅ Integrated<br>✅ Cached<br>✅ Format-aware | ❌ Requires setup<br>❌ Node.js dependency |
 | **Manual** | ✅ Simple<br>✅ No dependencies | ❌ Manual steps<br>❌ No caching<br>❌ Error-prone |
 
 ## License

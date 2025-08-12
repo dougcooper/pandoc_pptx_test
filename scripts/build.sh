@@ -5,10 +5,10 @@ echo "🎨 Building Pandoc PowerPoint Demo..."
 # Create output directory
 mkdir -p output
 
-# Check if mermaid-cli is installed
-if ! command -v mmdc &> /dev/null; then
-    echo "❌ mermaid-cli not found. Installing..."
-    echo "Run: npm install -g @mermaid-js/mermaid-cli"
+# Check if mermaid-cli is installed locally
+if [ ! -f "node_modules/.bin/mmdc" ]; then
+    echo "❌ mermaid-cli not found locally. Installing..."
+    echo "Run: npm install @mermaid-js/mermaid-cli"
     exit 1
 fi
 
@@ -21,14 +21,14 @@ fi
 # Build PowerPoint presentation
 echo "📊 Generating PowerPoint presentation..."
 pandoc presentation-demo.md \
-    --filter ./mermaid-filter.py \
+    --filter ./mermaid-filter.js \
     --reference-doc template.pptx \
     -o output/presentation-demo.pptx
 
 # Build HTML presentation for comparison
 echo "🌐 Generating HTML presentation..."
 pandoc presentation-demo.md \
-    --filter ./mermaid-filter.py \
+    --filter ./mermaid-filter.js \
     -t revealjs \
     --standalone \
     --variable revealjs-url=https://unpkg.com/reveal.js@4.3.1/ \

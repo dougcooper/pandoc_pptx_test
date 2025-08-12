@@ -1,0 +1,17 @@
+{
+  "name": "pandoc_pptx_test",
+  "version": "1.0.0",
+  "description": "A complete workflow for creating professional PowerPoint presentations from Markdown with automatic mermaid diagram generation.",
+  "main": "\"\"",
+  "scripts": {
+    "test": "./scripts/test.sh",
+    "build": "./scripts/build.sh",
+    "clean": "./scripts/clean.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^10.9.1",
+    "pandoc-filter": "^2.2.0"
+  }
+}

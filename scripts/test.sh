@@ -5,8 +5,8 @@ echo "🧪 Testing complete workflow..."
 # Test that all required tools are available
 echo "✅ Checking dependencies..."
 
-if ! command -v uv &> /dev/null; then
-    echo "❌ uv not found. Please install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js not found. Please install Node.js"
     exit 1
 fi
 
@@ -15,8 +15,8 @@ if ! command -v pandoc &> /dev/null; then
     exit 1
 fi
 
-if ! command -v mmdc &> /dev/null; then
-    echo "❌ mermaid-cli not found. Install with: npm install -g @mermaid-js/mermaid-cli"
+if ! command -v mmdc &> /dev/null && [ ! -f "node_modules/.bin/mmdc" ]; then
+    echo "❌ mermaid-cli not found. Install locally with: npm install @mermaid-js/mermaid-cli"
     exit 1
 fi
 
