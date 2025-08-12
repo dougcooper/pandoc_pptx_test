@@ -24,16 +24,15 @@ echo "✅ All dependencies found!"
 
 # Test the build
 echo "🔨 Testing build process..."
-./build.sh
+./scripts/build.sh
 
 # Verify outputs
-if [ -f "output/presentation-demo.pptx" ] && [ -f "output/presentation-demo.html" ]; then
+if [ -f "output/presentation-demo.pptx" ]; then
     echo "✅ Build test successful!"
     echo "📊 PowerPoint: output/presentation-demo.pptx"
-    echo "🌐 HTML: output/presentation-demo.html"
     echo "🖼️  Generated $(ls generated_diagrams/ | wc -l) mermaid diagrams"
 else
-    echo "❌ Build test failed - outputs not generated"
+    echo "❌ Build test failed - PowerPoint output not generated"
     exit 1
 fi
 

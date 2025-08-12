@@ -23,22 +23,13 @@ echo "📊 Generating PowerPoint presentation..."
 pandoc presentation-demo.md \
     --filter ./mermaid-filter.js \
     --reference-doc template.pptx \
+    -t pptx \
     -o output/presentation-demo.pptx
-
-# Build HTML presentation for comparison
-echo "🌐 Generating HTML presentation..."
-pandoc presentation-demo.md \
-    --filter ./mermaid-filter.js \
-    -t revealjs \
-    --standalone \
-    --variable revealjs-url=https://unpkg.com/reveal.js@4.3.1/ \
-    -o output/presentation-demo.html
 
 echo "✅ Build complete!"
 echo ""
 echo "📁 Generated files:"
 echo "   📊 output/presentation-demo.pptx (PowerPoint)"
-echo "   🌐 output/presentation-demo.html (HTML/Reveal.js)"
 echo ""
 echo "💡 Customize template.pptx for your corporate branding!"
 

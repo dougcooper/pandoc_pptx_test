@@ -27,8 +27,8 @@ const os = require('os');
  * @returns {string|null} Path to the generated image file or null if failed
  */
 function mermaidToImage(code, format = 'png', width = 800, height = 600, theme = 'default') {
-    // Create a hash of the code to use as filename (for caching)
-    const codeHash = crypto.createHash('md5').update(`${code}${theme}${width}${height}`).digest('hex');
+    // Create a hash of the code AND format to use as filename (for caching)
+    const codeHash = crypto.createHash('md5').update(`${code}${format}${theme}${width}${height}`).digest('hex');
     
     // Create output directory if it doesn't exist
     const outputDir = path.join(process.cwd(), 'generated_diagrams');
@@ -108,14 +108,12 @@ function action(elem, format, meta) {
         
         // Check if this is a mermaid code block
         if (classes.includes('mermaid')) {
-            // Choose image format based on output format
+            // Use PNG for PowerPoint compatibility, SVG for HTML/web
             let imgFormat;
-            if (['latex', 'pdf'].includes(format)) {
-                imgFormat = 'pdf';
-            } else if (['html', 'html5', 'revealjs'].includes(format)) {
-                imgFormat = 'svg';
+            if (['pptx', 'docx'].includes(format)) {
+                imgFormat = 'png';  // PowerPoint works better with PNG
             } else {
-                imgFormat = 'png';
+                imgFormat = 'svg';  // SVG for web formats
             }
             
             // Get theme from document metadata or code block attributes
@@ -156,6 +154,9 @@ function action(elem, format, meta) {
             const imgPath = mermaidToImage(code, imgFormat, width, height, theme);
             
             if (imgPath) {
+                // Convert absolute path to relative path for better compatibility
+                const relativePath = path.relative(process.cwd(), imgPath);
+                
                 // Create image attributes
                 const imageAttributes = [['width', '90%']];
                 
@@ -170,7 +171,7 @@ function action(elem, format, meta) {
                 const image = pandocFilter.Image(
                     ['', [], imageAttributes],  // Attr
                     [pandocFilter.Str('Mermaid Diagram')],  // Alt text
-                    [imgPath, '']  // [url, title]
+                    [relativePath, '']  // [url, title] - use relative path
                 );
                 
                 // Return the image wrapped in a paragraph
