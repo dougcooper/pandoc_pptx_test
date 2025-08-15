@@ -8,7 +8,7 @@ mkdir -p output
 # Check if mermaid-cli is installed locally
 if [ ! -f "node_modules/.bin/mmdc" ]; then
     echo "❌ mermaid-cli not found locally. Installing..."
-    echo "Run: npm install @mermaid-js/mermaid-cli"
+    echo "Run: bun install @mermaid-js/mermaid-cli"
     exit 1
 fi
 

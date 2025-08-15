@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Pandoc filter to convert mermaid code blocks to images.
  * 
@@ -57,6 +57,7 @@ function mermaidToImage(code, format = 'png', width = 800, height = 600, theme =
         
         // Run mermaid-cli to generate the image
         const cmd = [
+            'bun', 'run',
             localMmdc,
             '-i', tempFile,
             '-o', outputFile,

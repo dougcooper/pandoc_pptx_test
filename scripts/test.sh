@@ -5,8 +5,8 @@ echo "🧪 Testing complete workflow..."
 # Test that all required tools are available
 echo "✅ Checking dependencies..."
 
-if ! command -v node &> /dev/null; then
-    echo "❌ Node.js not found. Please install Node.js"
+if ! command -v bun &> /dev/null; then
+    echo "❌ Bun not found. Please install Bun"
     exit 1
 fi
 
@@ -16,7 +16,7 @@ if ! command -v pandoc &> /dev/null; then
 fi
 
 if ! command -v mmdc &> /dev/null && [ ! -f "node_modules/.bin/mmdc" ]; then
-    echo "❌ mermaid-cli not found. Install locally with: npm install @mermaid-js/mermaid-cli"
+    echo "❌ mermaid-cli not found. Install locally with: bun install @mermaid-js/mermaid-cli"
     exit 1
 fi
 
